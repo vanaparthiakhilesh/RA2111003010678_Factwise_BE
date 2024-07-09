@@ -1,25 +1,29 @@
-def maxScore(cardpoints, k):
-    n = len(cardpoints)
+def number_to_words(n):
+    ones = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+    teens = ["", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"]
+    tens = ["", "ten", "twenty", "thirty", "forty", "fifty", "sixty", "seventy", "eighty", "ninety"]
+    thousands = ["", "thousand"]
     
-    
-    current_sum = sum(cardpoints[:k])
-    max_sum = current_sum
-    
-    
-    for i in range(k):
-        current_sum += cardpoints[n - 1 - i] - cardpoints[k-1-i]
-        max_sum = max(max_sum, current_sum)
-    
-    return max_sum
+    if 1 <= n < 10:
+        return ones[n]
+    elif 10 < n < 20:
+        return teens[n - 10]
+    elif 10 <= n < 100:
+        return tens[n // 10] + ones[n % 10]
+    elif 100 <= n < 1000:
+        if n % 100 == 0:
+            return ones[n // 100] + "hundred"
+        else:
+            return ones[n // 100] + "hundredand" + number_to_words(n % 100)
+    elif n == 1000:
+        return "onethousand"
+    else:
+        return ""
 
-
-def main():
-    
-    cardpoints = list(map(int, input("Enter the card points:").split()))
-    k = int(input("Enter number of cards:"))
-    
-    
-    print("Max score:", maxScore(cardpoints, k))
-
-if __name__ == "__main__":
-    main()
+def total_letters_used():
+    total_letters = 0
+    for i in range(1, 1001):
+        words = number_to_words(i)
+        total_letters += len(words)
+    return total_letters
+print("the total no of letters to be used between (1-1000):{}".format(total_letters_used()))
